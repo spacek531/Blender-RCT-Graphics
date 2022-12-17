@@ -113,7 +113,7 @@ class GeneralProperties(bpy.types.PropertyGroup):
         name = "Dithering Mode",
         items = (
             ("FloydSteinberg", "Floyd-Steinberg", "Applies Floyd-Steinberg dithering, a configurable dithering algorithm which produces 'grid' dithering.", 1),
-            ("Riemersma", "Riemersma", "Applies Riemrsma dithering, a dithering algorithm which produces more 'random' dithering.", 2)
+            # ("Riemersma", "Riemersma", "Applies Riemrsma dithering, a dithering algorithm which produces more 'random' dithering.", 2)
         )
     )
 
