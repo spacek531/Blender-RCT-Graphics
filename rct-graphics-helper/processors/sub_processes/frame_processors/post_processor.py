@@ -59,8 +59,7 @@ class PostProcessor(SubProcessor):
                 i)
 
             forced_color_render = MagickCommand("mpr:render")
-            forced_color_render.quantize(self.renderer.get_palette_path(
-                palette), self.renderer.floyd_steinberg_diffusion)
+            forced_color_render.quantize(self.renderer.get_palette_path(palette), self.renderer.floyd_steinberg_diffusion)
             
             # Replace our input color with the appropriate orct2 remap color
             for i in range(min(len(palette.shades), len(orct2_palette.shades))):
