@@ -15,7 +15,6 @@ from ..builders.materials_builder import MaterialsBuilder
 
 from ..builders.scene_builder import SceneBuilder
 from ..builders.compositor_builder import CompositorBuilder
-from ..rct_graphics_render_button import register_button
 
 
 class Init(bpy.types.Operator):
@@ -71,8 +70,6 @@ class Init(bpy.types.Operator):
 
         materialsBuilder = MaterialsBuilder()
         materialsBuilder.build(context)
-
-        register_button()
 
         return {'FINISHED'}
 
