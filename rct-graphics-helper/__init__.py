@@ -15,7 +15,6 @@ from .properties.tiles_properties import register_tiles_properties, unregister_t
 from .properties.walls_properties import register_walls_properties, unregister_walls_properties
 from .properties.general_properties import register_general_properties, unregister_general_properties
 from .rct_graphics_helper_panel import GraphicsHelperPanel
-from .rct_graphics_render_button import try_register_button, unregister_button
 from . import developer_utils
 
 import importlib
@@ -52,7 +51,6 @@ def register():
     register_tiles_properties()
     register_vehicles_properties()
     register_walls_properties()
-    try_register_button(bpy.context)
 
     print("Registered {} with {} modules".format(
         bl_info["name"], len(modules)))
@@ -68,6 +66,5 @@ def unregister():
     unregister_tiles_properties()
     unregister_vehicles_properties()
     unregister_walls_properties()
-    unregister_button()
 
     print("Unregistered {}".format(bl_info["name"]))
