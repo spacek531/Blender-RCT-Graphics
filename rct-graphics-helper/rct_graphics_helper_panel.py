@@ -95,6 +95,13 @@ class GraphicsHelperPanel(bpy.types.Panel):
         row = layout.row()
         row.prop(properties,"tertiary_remap_input")
 
+        box = layout.box()
+        row = box.row()
+        row.prop(properties,"dithering_mode")
+        if properties.dithering_mode in properties.dithering_modes_with_strength:
+            row = box.row()
+            row.prop(properties,"dithering_strength")
+        
         row = layout.row()
         row.label("Dither Palette:")
 
