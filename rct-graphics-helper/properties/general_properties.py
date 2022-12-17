@@ -109,6 +109,24 @@ class GeneralProperties(bpy.types.PropertyGroup):
         items= create_remap_enumlist("yellow")
     )
 
+    dithering_mode = bpy.props.EnumProperty(
+        name = "Dithering Mode",
+        items = (
+            ("FloydSteinberg", "Floyd-Steinberg", "Applies Floyd-Steinberg dithering, a configurable dithering algorithm which produces 'grid' dithering.", 1),
+            ("Riemersma", "Riemersma", "Applies Riemrsma dithering, a dithering algorithm which produces more 'random' dithering.", 2)
+        )
+    )
+
+    dithering_modes_with_strength = ["FloydSteinberg"]
+
+    dithering_strength = bpy.props.IntProperty(
+        name = "Dithering Strength",
+        description = "Floyd-Steinberg dithering strength",
+        default = 35,
+        min = 1,
+        max = 100
+    )
+
     render_mode = bpy.props.EnumProperty(
         name="Render Mode",
         items=(
