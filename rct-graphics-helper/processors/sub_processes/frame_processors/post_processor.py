@@ -41,7 +41,7 @@ class PostProcessor(SubProcessor):
         magick_command.write_to_cache("render")
 
         magick_command.quantize(self.renderer.get_palette_path(
-            frame.base_palette),self.renderer.dither_mode, self.renderer.floyd_steinberg_diffusion)
+            frame.base_palette), self.renderer.floyd_steinberg_diffusion)
 
         # this should be moved somewhere it can run once per palette change
         self.renderer.get_recolor_shades()

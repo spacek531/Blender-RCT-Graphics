@@ -32,10 +32,9 @@ class MagickCommand(object):
             " " + delete_addition + ")" + post
 
     # Quantizes the image using a palette
-    def quantize(self, palette, mode, amount):
-        self.full_command += " -dither "+mode+(amount and " -define dither:diffusion-amount=" + str(amount) + "% -remap " or " ") + \
+    def quantize(self, palette, amount):
+        self.full_command += " -dither FloydSteinberg "+(amount and " -define dither:diffusion-amount=" + str(amount) + "% -remap " or " ") + \
             self.__stringify_input(palette) + " -colorspace sRGB"
-        print(self.full_command)
 
     # Trims the image to the smallest possible size and outputs the offset difference
     def trim(self):
