@@ -121,7 +121,7 @@ class GeneralProperties(bpy.types.PropertyGroup):
 
     dithering_strength = bpy.props.IntProperty(
         name = "Dithering Strength",
-        description = "Floyd-Steinberg dithering strength",
+        description = "Floyd-Steinberg error diffusion",
         default = 35,
         min = 1,
         max = 100
