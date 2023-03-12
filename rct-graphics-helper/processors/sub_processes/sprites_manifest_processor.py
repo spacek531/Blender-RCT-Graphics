@@ -54,6 +54,8 @@ class SpritesManifestProcessor(SubProcessor):
                     os.path.basename(output_info.path)
                 image_dict["x"] = output_info.offset_x
                 image_dict["y"] = output_info.offset_y
+                image_dict["x_offset"] = output_info.offset_x
+                image_dict["y_offset"] = output_info.offset_y
 
                 images[output_info.index] = image_dict
 
