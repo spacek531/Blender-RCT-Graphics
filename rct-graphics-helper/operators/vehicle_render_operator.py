@@ -73,6 +73,12 @@ class RenderVehicle(RCTRender, bpy.types.Operator):
                 continue
 
             for track_section in track_sections:
+                if properties.sprite_group_mode != "SIMPLE":
+                    if track_section[2] > 0 and not properties.render_updown[0]:
+                        continue
+                    if track_section[2] < 0 and not properties.render_updown[1]:
+                        continue
+
                 # If the sprite angle is intended to be diagonal, offset by 45 degrees unless diagonal sprites will be present
                 base_view_angle = 0
                 if track_section[0] and precision < 8:
