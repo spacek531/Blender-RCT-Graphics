@@ -239,7 +239,8 @@ class GraphicsHelperPanel(bpy.types.Panel):
         row.prop(properties,"sprite_group_mode")
 
         box = layout.box()
-        split = box.split(0.5)
+        row = box.row()
+        split = row.split(0.5)
         columns = [split.column(), split.column()]
         i = 0
         if properties.sprite_group_mode == "SIMPLE":
@@ -250,13 +251,20 @@ class GraphicsHelperPanel(bpy.types.Panel):
                                           index=index, text=sprite_track_flagset.name)
                 i += 1
         else:
-            columns = [column.split(0.667) for column in columns]
-            subcolumns = [columns[0].column(), columns[0].column(),columns[1].column(), columns[1].column()]
+            columns2 = [column.split(0.667) for column in columns]
+            subcolumns = [columns2[0].column(), columns2[0].column(),columns2[1].column(), columns2[1].column()]
             splitpoint = len(sprite_group_names) // 2
             for sprite_group_name in sprite_group_names:
                 subcolumns[(i > splitpoint) * 2].row().label(sprite_group_name+":")
                 subcolumns[(i > splitpoint) * 2 + 1].row().prop(properties, sprite_group_name, text = "")
                 i += 1
+
+            row = box.row()
+            split = row.split(0.5)
+            columns = [split.column(), split.column()]
+
+            columns[0].row().prop(properties,"render_updown", index = 0, text = "Render uphill sprites")
+            columns[1].row().prop(properties,"render_updown", index = 1, text = "Render downhill sprites")
 
         row = layout.row()
         row.prop(properties, "inverted_set")

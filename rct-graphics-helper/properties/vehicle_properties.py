@@ -117,6 +117,13 @@ class VehicleProperties(bpy.types.PropertyGroup):
         update = sprite_group_mode_updated
     )
 
+    render_updown = bpy.props.BoolVectorProperty(
+        name = "Render specific slope directions",
+        description = "Micromanage which slopes are rendered",
+        default = [True, True],
+        size = 2
+    )
+
     def get_legacy_set(self):
         return { legacy_group_names[i] for i in range(len(self.sprite_track_flags)) if self.sprite_track_flags[i] }
 
