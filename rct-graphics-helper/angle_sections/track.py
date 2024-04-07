@@ -161,20 +161,6 @@ sprite_group_manifest = {
         [False, 4, -22.2052, -90, 0],
         [False, 4, -22.2052, 90, 0]
     ],
-    """
-        [False, 4, 22.2052, -112.5, 0],
-        [False, 4, 22.2052, 112.5, 0],
-        [False, 4, 22.2052, -135, 0],
-        [False, 4, 22.2052, 135, 0],
-        [False, 4, 22.2052, -157.5, 0],
-        [False, 4, 22.2052, 157.5, 0],
-        [False, 4, -22.2052, -112.5, 0],
-        [False, 4, -22.2052, 112.5, 0],
-        [False, 4, -22.2052, -135, 0],
-        [False, 4, -22.2052, 135, 0],
-        [False, 4, -22.2052, -157.5, 0],
-        [False, 4, -22.2052, 157.5, 0]
-    """
     'slopes25InlineTwists': [
         [False, 4, 22.2052, -112.5, 0],
         [False, 4, 22.2052, 112.5, 0],
@@ -251,7 +237,7 @@ sprite_group_manifest = {
         [False, 32, 9.8287, 0, 0]
     ],
     'curvedLiftHillDown': [
-        [False, 32, 9.8287, 0, 0]
+        [False, 32, -9.8287, 0, 0]
     ]
 }
 
@@ -263,7 +249,7 @@ sprite_group_metadata = {
     "slopes42": [8, "Gentle-to-steep slope track"],
     "slopes60": [32, "Orthogonal steep slope track"],
     "slopes75": [4, "Steep-to-vertical slope track"],
-    "slopes90": [4, "Vertical track"],
+    "slopes90": [32, "Vertical track"],
     "slopesLoop": [4,"Loop track"],
     "slopeInverted": [4, "Fully inverted track"],
     "slopes8": [4, "Diagonal flat-to-gentle slope track"],
