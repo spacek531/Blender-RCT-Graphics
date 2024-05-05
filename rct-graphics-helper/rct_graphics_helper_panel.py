@@ -157,6 +157,9 @@ class GraphicsHelperPanel(bpy.types.Panel):
             self.draw_track_panel(scene, box)
 
         row = layout.row()
+        row.prop(properties, "trim_images")
+
+        row = layout.row()
         row.prop(properties, "build_gx")
 
         if properties.build_gx:

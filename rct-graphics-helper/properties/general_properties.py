@@ -127,6 +127,12 @@ class GeneralProperties(bpy.types.PropertyGroup):
         max = 100
     )
 
+    trim_images = bpy.props.BoolProperty(
+        name="Crop Images",
+        description="Disable cropping for additional processing in other programs",
+        default=True
+    )
+
     render_mode = bpy.props.EnumProperty(
         name="Render Mode",
         items=(

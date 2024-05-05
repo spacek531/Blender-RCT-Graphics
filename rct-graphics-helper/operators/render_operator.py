@@ -80,6 +80,7 @@ class RCTRender(object):
 
 
         render_task_processor.renderer.set_dither(general_props.dithering_strength)
+        render_task_processor.renderer.set_trim(general_props.trim_images)
 
         task = self.create_task(context)
 

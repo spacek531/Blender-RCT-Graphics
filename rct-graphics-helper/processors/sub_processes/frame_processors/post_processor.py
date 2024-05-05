@@ -106,7 +106,8 @@ class PostProcessor(SubProcessor):
                 mask.id_mask(0, 0, frame.occlusion_layers - i - 1)
                 layer_command.mask_mix_self(mask)
 
-            layer_command.trim()
+            if self.renderer.trim:
+                layer_command.trim()
 
             result = str(subprocess.check_output(layer_command.get_command_string(
                 self.renderer.magick_path, output_path), shell=True))
@@ -147,7 +148,8 @@ class PostProcessor(SubProcessor):
 
                 tile_magic_command.mask_mix_self(mask)
 
-                tile_magic_command.trim()
+                if self.renderer.trim:
+                    tile_magic_command.trim()
 
                 result = str(subprocess.check_output(tile_magic_command.get_command_string(
                     self.renderer.magick_path, final_output_path), shell=True))

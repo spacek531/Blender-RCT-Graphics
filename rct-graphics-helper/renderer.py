@@ -40,6 +40,7 @@ class Renderer:
         self.magick_path = "magick"
         self.floyd_steinberg_diffusion = 35
 
+        self.trim = True
         self.palette_manager = palette_manager
 
         self.rendering = False
@@ -65,6 +66,9 @@ class Renderer:
 
     def set_dither(self, percent):
         self.floyd_steinberg_diffusion = percent
+
+    def set_trim(self, trim):
+        self.trim = trim
 
     # Render out the current scene
     def render(self, output_still, callback):
