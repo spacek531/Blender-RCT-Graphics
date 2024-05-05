@@ -21,6 +21,8 @@ from .operators.track_render_operator import RenderTrack
 
 from .operators.render_tiles_operator import RenderTiles
 
+from .operators.render_switch_operator import RenderRCTSwitch
+
 from .models.palette import palette_colors, palette_colors_details
 from .angle_sections.track import sprite_group_names, legacy_group_names
 
@@ -64,7 +66,10 @@ class GraphicsHelperPanel(bpy.types.Panel):
         properties = scene.rct_graphics_helper_general_properties
 
         row = layout.row()
-        row.separator()
+        text = "Render"
+        if properties.rendering:
+            text = "Failed"
+        row.operator("render.rct_switch", text=text)
 
         row = layout.row()
         row.label("General:")
