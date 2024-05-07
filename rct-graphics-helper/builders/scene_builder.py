@@ -120,7 +120,6 @@ class SceneBuilder:
 
         lamp_object = self.create_scene_object(context, 'Mainlight', lamp_data)
 
-        lamp_object.hide = True
         lamp_object.hide_select = True
         lamp_object.location = (0, 0, 0)
         lamp_object.rotation_euler = (math.radians(67.5), 0, math.radians(90))
@@ -142,7 +141,6 @@ class SceneBuilder:
         lamp_object = self.create_scene_object(
             context, 'FillerLight', lamp_data)
 
-        lamp_object.hide = True
         lamp_object.hide_select = True
         lamp_object.location = (0, 0, 0)
         lamp_object.rotation_euler = (
@@ -156,7 +154,6 @@ class SceneBuilder:
         lamp_data.use_specular = False
 
         lamp_object = self.create_scene_object(context, 'LightDome', lamp_data)
-        lamp_object.hide = True
         lamp_object.hide_select = True
 
         return lamp_object
