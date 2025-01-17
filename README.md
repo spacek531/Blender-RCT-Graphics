@@ -8,12 +8,11 @@
 
 The following programs are necessary:
 
-- [ImageMagick](https://imagemagick.org/script/download.php) (7.0.8-6 or higher. Q16 **Without** HDRI) added to the Path variable. For Windows install the "ImageMagick Q16 x64 static.exe" option.
 - [Blender (2.79)](https://download.blender.org/release/Blender2.79/)
+- [Object Editor](https://github.com/OpenLoco/ObjectEditor/releases) The (Locomotion) Object Editor is recommended as it allows you to optimize the sprites for OpenLoco by packing them into a .dat file. Just download the program, open up an existing vanilla object that you want to replace sprites for, "import from directory" your sprites, and save-as to create a new custom object.
 
 **Optional**
-
-- [Object Editor](https://github.com/OpenLoco/ObjectEditor/releases) The (Locomotion) Object Editor is recommended as it allows you to optimize the sprites for OpenLoco by packing them into a .dat file. Just download the program, open up an existing vanilla object that you want to replace sprites for, "import from directory" your sprites, and save-as to create a new custom object.
+  
 - [OpenGraphics Repository](https://github.com/OpenLoco/OpenGraphics) Having the OpenGraphics repository cloned in combination with Node.js allows the add-on to automatically create the asset pack file. On step 5 of the add-on installation point the OpenGraphics path to where you have the repository cloned. 
 - [Node.js](https://nodejs.org/en/) (16.15.0 LTS or higher) Required for the asset pack workflow for OpenGraphics.
 
