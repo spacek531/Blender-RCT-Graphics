@@ -13,8 +13,8 @@ The following programs are necessary:
 
 **Optional**
 
-- [Sprite Compiler](https://github.com/IntelOrca/libsawyer/releases/tag/v1.1.0) The Libsawyer Sprite Compiler is recommended as it allows you to optimize the sprites for OpenRCT2 by packing them into a .dat file, this file is used by the .parkobj generation when activated. Download the libsawyer-tools zip file (For windows download "libsawyer-tools-win-x64.zip"), copy the `gxc.exe` file to a convenient directory and [add it to the path variable](https://docs.microsoft.com/en-us/previous-versions/office/developer/sharepoint-2010/ee537574(v=office.14))
-- [OpenGraphics Repository](https://github.com/openrct2/opengraphics) Having the OpenGraphics repository cloned in combination with Node.js allows the add-on to automatically create the asset pack file. On step 5 of the add-on installation point the OpenGraphics path to where you have the repository cloned. 
+- [Object Editor](https://github.com/OpenLoco/ObjectEditor/releases) The (Locomotion) Object Editor is recommended as it allows you to optimize the sprites for OpenLoco by packing them into a .dat file. Just download the program, open up an existing vanilla object that you want to replace sprites for, "import from directory" your sprites, and save-as to create a new custom object.
+- [OpenGraphics Repository](https://github.com/OpenLoco/OpenGraphics) Having the OpenGraphics repository cloned in combination with Node.js allows the add-on to automatically create the asset pack file. On step 5 of the add-on installation point the OpenGraphics path to where you have the repository cloned. 
 - [Node.js](https://nodejs.org/en/) (16.15.0 LTS or higher) Required for the asset pack workflow for OpenGraphics.
 
 # Installing
@@ -63,4 +63,4 @@ The add-on does not yet utilize parallelization, but this will likely make the a
 **Why Blender 2.79?**
 
 As of Blender 2.8, Blender removed "Blender Render", a scanline renderer. This renderer is the closest thing we had in Blender to what was used for the graphics seen in the Rollercoaster Tycoon games.
-In Blender 2.8 the alternatives are Cycles and Eevee, but sadly I found these renderers too sophesticated and true to life to mimmick renders from ~1998 rendering software.
+In Blender 2.8 the alternatives are Cycles and Eevee, but sadly I found these renderers too sophisticated and true to life to mimmick renders from ~1998 rendering software.
