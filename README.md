@@ -1,4 +1,4 @@
-**RCT Graphics Helper is an add-on for Blender 2.79 that aids the creation of sprites that match the graphical style of Rollercoaster Tycoon.**
+**Loco Graphics Helper is an add-on for Blender 2.79 that aids the creation of sprites that match the graphical style of Locomotion.**
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/2348094/163599017-243ab3a5-5567-4cd2-91d5-565b0cc86e63.png">
@@ -18,27 +18,27 @@ The following programs are necessary:
 
 # Installing
 
-1. Download the [latest release](https://github.com/oli414/Blender-RCT-Graphics/releases) of the RCT Graphics Helper Blender add-on.
+1. Download the [latest release](https://github.com/OpenLoco/Blender-Loco-Graphics/releases) of the Locomotion Graphics Helper Blender add-on.
 2. In Blender, click on File > User Preferences > Add-ons > "Install Add-on from File..."
-3. In the file explorer window, select the downloaded RCT Graphics Helper zip file.
-4. Enable the add-on by clicking the checkbox to the left of "RendeR: RCT Graphics Helper"
-5. Expand the RCT Graphics Helper add-on settings, and set the "OpenRCT2 Path" path to the location of the /openrct2/ folder that contains the object directory.
+3. In the file explorer window, select the downloaded Loco Graphics Helper zip file.
+4. Enable the add-on by clicking the checkbox to the left of "RendeR: Loco Graphics Helper"
+5. Expand the Loco Graphics Helper add-on settings, and set the "OpenLoco Path" path to the location of the /openrct2/ folder that contains the object directory.
 6. Click "Save User Settings".
 
 # Usage
 
 1. Open an existing file, or create a new file and make sure it's saved in its own folder.
 2. Remove any global light sources.
-3. In the RCT Tools toolbar on the 3D view toolshelf, click "Initialize / Repair" in the "RCT Graphics Helper" section.
+3. In the Loco Tools toolbar on the 3D view toolshelf, click "Initialize / Repair" in the "Loco Graphics Helper" section.
 4. This will create the lighting rig, and set the correct render settings.
-5. More options are now available in the RCT Graphics Helper section. Click the "Render" button to start rendering the scene.
+5. More options are now available in the Loco Graphics Helper section. Click the "Render" button to start rendering the scene.
 6. In the folder where the Blend file is saved, an "output" folder has been created with the rendered image files.
 
-Please check the [guidelines](https://github.com/oli414/Blender-RCT-Graphics/wiki/Guidelines) for the best results.
 
 # Documentation
 
-[Check out our wiki](https://github.com/oli414/Blender-RCT-Graphics/wiki/Documentation) for more in-depth details on all the available options.
+Check the [corresnpoding OpenRCT2 Graphics Helper guidelines](https://github.com/oli414/Blender-RCT-Graphics/wiki/Guidelines) for the best results.
+Check out the [corresponding OpenRCT2 Graphics Helper wiki](https://github.com/oli414/Blender-RCT-Graphics/wiki/Documentation) for more in-depth details on all the available options.
 
 # Notes
 
