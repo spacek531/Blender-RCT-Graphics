@@ -229,7 +229,10 @@ class GraphicsHelperPanel(bpy.types.Panel):
 
         components = get_car_components(cars)
         if len(components) == 0:
-            return   
+            col = layout.column()
+            col.label(text="No cars detected.")
+            col.label(text="Ensure at least one BODY is parented to a CAR")
+            return
         row = layout.row()
         row.label("Car(s) details:")
 
@@ -250,7 +253,7 @@ class GraphicsHelperPanel(bpy.types.Panel):
             back_name = '' if back is None else back.name
             mid_point_x = component.get_preferred_body_midpoint()
             if not math.isclose(body.matrix_world.translation[0], mid_point_x, rel_tol=1e-4):
-                warning = "BODY LOCATION IS NOT AT PREFERRED MID X POINT! {}".format(mid_point_x)
+                warning = "BODY LOCATION IS NOT AT PREFERRED MID X POINT! {}".format(round(mid_point_x,1))
 
             if not front is None:
                 front_position = component.get_bogie_position(SubComponent.FRONT)
