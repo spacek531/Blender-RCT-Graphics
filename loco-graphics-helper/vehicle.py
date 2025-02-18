@@ -168,7 +168,7 @@ def get_car_components(cars) -> List[VehicleComponent]:
         component_animations = [x for x in car.children if x.loco_graphics_helper_object_properties.object_type == 'ANIMATION']
 
         if len(component_bodies) != 1:
-            print("Malformed car {}".format(car.name))
+            print("Car {} requires at least one child BODY".format(car.name))
             continue
 
         if len(component_bogies) != 2:
