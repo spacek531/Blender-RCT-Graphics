@@ -42,8 +42,7 @@ class RenderVehicle(RCTRender, bpy.types.Operator):
             self.add_render_angles(body_object)
 
         if bodies[0].loco_graphics_helper_vehicle_properties.is_airplane:
-            self.task_builder.set_cast_shadows(
-                True)
+            self.task_builder.set_cast_shadows(True)
             self.task_builder.set_palette(self.palette_manager.get_shadow_palette())
             self.add_airplane_shadow_render_angles(bodies[0])
         else:
@@ -77,7 +76,7 @@ class RenderVehicle(RCTRender, bpy.types.Operator):
         is_bogie = object.loco_graphics_helper_object_properties.object_type == "BOGIE"
         target_object = object
         animation_frames = props.number_of_animation_frames
-        roll_frames = 1 if props.roll_angle == 0 else 3
+        tilt_frames = 1 if props.roll_angle == 0 else 3
         
         for i in range(len(track_angle_sections_names)):
             key = track_angle_sections_names[i]
@@ -118,10 +117,10 @@ class RenderVehicle(RCTRender, bpy.types.Operator):
                         target_object = object
 
                     for i in range(num_viewing_angles):
-                        if roll_frames != 1:
+                        if tilt_frames != 1:
                             roll_angles = [0, props.roll_angle, -props.roll_angle]
                             for j, roll_angle in enumerate(roll_angles):
-                                frame_index = start_output_index + i * roll_frames + j
+                                frame_index = start_output_index + i * tilt_frames + j
                                 self.task_builder.set_rotation(
                                     base_view_angle, roll_angle, vertical_angle=track_section[2])
                                 self.task_builder.add_frame(
