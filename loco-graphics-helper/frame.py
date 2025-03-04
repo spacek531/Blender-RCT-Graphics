@@ -104,6 +104,8 @@ class Frame:
             recursive_hide_children(self.target_object,False, self.target_object.loco_graphics_helper_object_properties.object_type)
 
             object.location = self.target_object.matrix_world.translation
+            if self.target_object.loco_graphics_helper_vehicle_properties.bounding_box_override:
+                object.location = self.target_object.loco_graphics_helper_vehicle_properties.bounding_box_override.matrix_world.translation
 
         # This is a little hacky...
         if self.layer == 'Top Down Shadow':
@@ -128,6 +130,9 @@ class Frame:
 
     def set_offset(self, offset_x, offset_y):
         self.offset_x = offset_x
+        self.offset_y = offset_y
+
+    def set_offset_y(self, offset_y):
         self.offset_y = offset_y
 
     def set_multi_tile_size(self, width, length, invert_tile_positions):
