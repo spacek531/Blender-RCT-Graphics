@@ -342,13 +342,10 @@ class GraphicsHelperPanel(bpy.types.Panel):
                 row.label("Body {}: {}".format(body.loco_graphics_helper_vehicle_properties.index, body.name))
                 row.prop(body.loco_graphics_helper_vehicle_properties, "render_sprite")
                 col = box.column()
-                col.label("  Flat Rotation Frames: {}".format(body.loco_graphics_helper_vehicle_properties.flat_viewing_angles))
-                col.label("  Sloped Rotation Frames: {}".format(body.loco_graphics_helper_vehicle_properties.sloped_viewing_angles))
                 col.label("  Tilt Frames: {}".format(3 if body.loco_graphics_helper_vehicle_properties.tilt_angle != 0 else 1))
                 col.label("  Half-Length: {}{}".format(self.blender_to_loco_dist(half_width), "" if body.loco_graphics_helper_vehicle_properties.bounding_box_override else " using bounding box override"))
                 col.label("  Flat Yaw Accuracy: {}".format(self.calculatePrecision(body.loco_graphics_helper_vehicle_properties.flat_viewing_angles)))
                 col.label("  Sloped Yaw Accuracy: {}".format(self.calculatePrecision(body.loco_graphics_helper_vehicle_properties.sloped_viewing_angles)))
-                col.label("  Frames per Viewing Angle: {}".format(0))
                 col.label("  Number of sprites: {}".format(number_of_sprites))
                 if not emitter_z is None:
                     col.label("  Emitter Vertical Position: {}".format(emitter_z))
