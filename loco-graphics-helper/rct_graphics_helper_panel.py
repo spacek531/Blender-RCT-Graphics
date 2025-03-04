@@ -22,7 +22,7 @@ from .operators.track_render_operator import RenderTrack
 
 from .operators.render_tiles_operator import RenderTiles
 
-from .properties.file_updater import apply_update
+from .properties.file_versioning import apply_update
 
 from .models.palette import palette_colors, palette_colors_details
 
