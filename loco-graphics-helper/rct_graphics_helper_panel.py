@@ -322,13 +322,13 @@ class GraphicsHelperPanel(bpy.types.Panel):
 
                 half_width = -1.0/32
                 car = None
-                if body.loco_graphics_helper_vehicle_properties.bounding_box_override:
-                    half_width = get_half_width(body.loco_graphics_helper_vehicle_properties.bounding_box_override)
                 for component in components:
                     if component.body == body:
                         car = component
                         half_width = component.get_half_width()
                         break
+                if not body.loco_graphics_helper_vehicle_properties.bounding_box_override is None:
+                    half_width = get_half_width(body.loco_graphics_helper_vehicle_properties.bounding_box_override)
                 emitter_z = car.get_emitter_z()
 
                 if number_of_sprites == 0:
@@ -343,7 +343,7 @@ class GraphicsHelperPanel(bpy.types.Panel):
                 row.prop(body.loco_graphics_helper_vehicle_properties, "render_sprite")
                 col = box.column()
                 col.label("  Tilt Frames: {}".format(3 if body.loco_graphics_helper_vehicle_properties.tilt_angle != 0 else 1))
-                col.label("  Half-Length: {}{}".format(self.blender_to_loco_dist(half_width), "" if body.loco_graphics_helper_vehicle_properties.bounding_box_override else " using bounding box override"))
+                col.label("  Half-Length: {}{}".format(self.blender_to_loco_dist(half_width), "" if body.loco_graphics_helper_vehicle_properties.bounding_box_override is None else " using bounding box override"))
                 col.label("  Flat Yaw Accuracy: {}".format(self.calculatePrecision(body.loco_graphics_helper_vehicle_properties.flat_viewing_angles)))
                 col.label("  Sloped Yaw Accuracy: {}".format(self.calculatePrecision(body.loco_graphics_helper_vehicle_properties.sloped_viewing_angles)))
                 col.label("  Number of sprites: {}".format(number_of_sprites))
