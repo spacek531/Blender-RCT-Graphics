@@ -15,7 +15,7 @@ from bpy.app.handlers import persistent
 # each function updates the file to the version in the name
 # if only new features were added, copy the format of version0
 
-current_file_version = 4
+current_file_version = 5
 
 def getAllComponents():
     return [x for x in bpy.context.scene.objects if x.loco_graphics_helper_object_properties.object_type != 'NONE']
@@ -49,6 +49,11 @@ class FileVersionUpdater:
     # add specific Y-offsets per entity type
     def version4():
         bpy.context.scene.loco_graphics_helper_general_properties.y_offset += 17
+    
+    # plugin version 0.2.0
+    # add track rendering
+    def version5():
+       pass
 
 update_functions = [getattr(FileVersionUpdater, func) for func in dir(FileVersionUpdater) if callable(getattr(FileVersionUpdater, func)) and not func.startswith("__")]
 

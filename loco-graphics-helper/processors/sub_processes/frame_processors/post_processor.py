@@ -21,6 +21,8 @@ class Output:
         self.index = 0
         self.offset_x = 0
         self.offset_y = 0
+        self.flags = 0
+        self.zoomOffset = 0
 
 # Frame processor for masking, dithering and cropping the final image
 

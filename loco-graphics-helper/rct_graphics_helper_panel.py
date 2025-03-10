@@ -226,16 +226,16 @@ class GraphicsHelperPanel(bpy.types.Panel):
         
         #row = layout.row()
         #row.operator("render.loco_track", text="Generate Splines")
-        #
-        #row = layout.row()
-        #row.prop(properties, "placeholder")
+        
+        row = layout.row()
+        row.prop(properties, "track_type")
 #
-        #if "Rig" in context.scene.objects:
-        #    row = layout.row()
-        #    text = "Render"
-        #    if general_properties.rendering:
-        #        text = "Failed"
-        #    row.operator("render.loco_track", text=text)
+        if "Rig" in context.scene.objects:
+            row = layout.row()
+            text = "Render"
+            if general_properties.rendering:
+                text = "Failed"
+            row.operator("render.loco_track", text=text)
 
     @staticmethod
     def blender_to_loco_dist(dist):
