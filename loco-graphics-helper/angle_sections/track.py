@@ -233,14 +233,14 @@ track_piece_manifest = [
         "name": "Small Curve",
         "sprite_type": "FLAT",
         "grid_size": [2,2],
-        "subposition_order": [2,0,3,1],
+        "subposition_order": [2,3,0,1],
         "camera_world_offset": [1, -0.5, 0]
     },
     {
         "name": "Small Curve Gentle Slope Up",
         "sprite_type": "SLOPE",
         "grid_size": [2,2],
-        "subposition_order": [2,0,3,1],
+        "subposition_order": [2,3,0,1],
         "camera_world_offset": [1, -0.5, 0],
         "base_layer_name": 6
     },
@@ -248,7 +248,7 @@ track_piece_manifest = [
         "name": "Small Curve Gentle Slope Down",
         "sprite_type": "SLOPE",
         "grid_size": [2,2],
-        "subposition_order": [2,0,3,1],
+        "subposition_order": [2,3,0,1],
         "camera_world_offset": [1, -0.5, 0],
         "base_layer_name": 6
     },
@@ -256,7 +256,7 @@ track_piece_manifest = [
         "name": "Small Curve Steep Slope Up",
         "sprite_type": "SLOPE",
         "grid_size": [2,2],
-        "subposition_order": [2,0,3,1],
+        "subposition_order": [2,3,0,1],
         "camera_world_offset": [1, -0.5, 0],
         "base_layer_name": 6
     },
@@ -264,7 +264,7 @@ track_piece_manifest = [
         "name": "Small Curve Steep Slope Down",
         "sprite_type": "SLOPE",
         "grid_size": [2,2],
-        "subposition_order": [2,0,3,1],
+        "subposition_order": [2,3,0,1],
         "camera_world_offset": [1, -0.5, 0],
         "base_layer_name": 6
     },

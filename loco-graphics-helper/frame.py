@@ -57,6 +57,7 @@ class Frame:
         self.output_flags = 0
         self.output_zoomOffset = 0
         self.scale = (1, 1, 1)
+        self.mirror_x = False
         self.view_angle_offset = -45
 
         self.base_palette = None
@@ -233,11 +234,14 @@ class Frame:
         self.output_zoomOffset = offset
     
     def set_mirror_x(self, mirror):
+        if mirror == self.mirror_x:
+            return
+        self.mirror_x = mirror
         if mirror:
             self.scale = (-1, 1, 1)
             self.view_angle_offset = -90-45
-            self.view_angle = -abs(self.view_angle)
+            self.view_angle = 360-self.view_angle
         else:
             self.scale = (1, 1, 1)
             self.view_angle_offset = -45
-            self.view_angle = abs(self.view_angle)
+            self.view_angle = 360-self.view_angle
