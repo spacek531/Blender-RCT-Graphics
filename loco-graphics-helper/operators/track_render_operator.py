@@ -70,7 +70,7 @@ class RenderTrack(RCTRender, bpy.types.Operator):
     def add_layer(self, track_piece, layer):
         """track_piece.location"""
         manifest = track_piece.manifest
-        target_object = TrackPieceLayer([0,0,0],track_piece.layer_objects[layer], manifest)
+        target_object = TrackPieceLayer((0,0,0),track_piece.layer_objects[layer], manifest)
         self.task_builder.output_flags = 1
         # self.task_builder.output_prefix = "{}_{}".format(manifest.name, track_piece.layer_names[layer])
         self.task_builder.target_object = target_object

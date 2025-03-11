@@ -124,7 +124,7 @@ class Frame:
             for o in self.target_object.objects:
                 recursive_hide_children(o,False)
             return self.target_object.location
-        return [0,0,0]
+        return self.target_object.location
 
     def prepare_scene(self):
         object = bpy.data.objects['Rig']
