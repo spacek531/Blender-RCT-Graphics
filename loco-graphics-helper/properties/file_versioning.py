@@ -13,9 +13,9 @@ from bpy.app.handlers import persistent
 # Updating a project file to a newer version
 
 # each function updates the file to the version in the name
-# if only new features were added, copy the format of version0
+# if only new features were added, use pass argument for an empty function
 
-current_file_version = 5
+current_file_version = 6
 
 def getAllComponents():
     return [x for x in bpy.context.scene.objects if x.loco_graphics_helper_object_properties.object_type != 'NONE']
@@ -53,6 +53,11 @@ class FileVersionUpdater:
     # plugin version 0.2.0
     # add track rendering
     def version5():
+       pass
+
+    # plugin version 0.2.1
+    # remove TRACK_LAYER object type
+    def version6():
        pass
 
 update_functions = [getattr(FileVersionUpdater, func) for func in dir(FileVersionUpdater) if callable(getattr(FileVersionUpdater, func)) and not func.startswith("__")]

@@ -21,13 +21,28 @@ class LocoObjectHelperPanel(bpy.types.Panel):
     def draw(self, context):
         layout = self.layout
         object_properties = context.object.loco_graphics_helper_object_properties
+        object_type = object_properties.object_type
+
+        # this connects a track layer object to its parent object
+        track_object = context.object
+        scene = context.scene
+        while track_object.parent is not None:
+            track_object = track_object.parent
+            if track_object.loco_graphics_helper_object_properties.object_type == "TRACK_PIECE":
+                break
+        if track_object == scene or track_object == context.object:
+            track_object = None
 
         row = layout.row()
         if not "Rig" in context.scene.objects:
             row.label("Tool is not intialised.")
             return
-        row.prop(object_properties, "object_type")
-        object_type = object_properties.object_type
+
+        # if it's a track layer object, force the type to NONE and don't show the property
+        if track_object and track_object.loco_graphics_helper_object_properties.object_type == "TRACK_PIECE":
+            pass
+        else:
+            row.prop(object_properties, "object_type")
 
         if object_type == "BODY":
             self.draw_body_panel(context, layout)
@@ -37,12 +52,12 @@ class LocoObjectHelperPanel(bpy.types.Panel):
 
         if object_type == "CAR":
             self.draw_car_panel(context, layout)
-        
-        if object_properties.object_type == "TRACK_PIECE":
-            self.draw_piece_panel(context, layout)
-        
-        if object_type == "TRACK_LAYER":
-            self.draw_layer_panel(context, layout)
+
+        # if it's a track layer object, show the track properties of the track piece object
+        if track_object and track_object.loco_graphics_helper_object_properties.object_type == "TRACK_PIECE":
+            self.draw_piece_panel(context, track_object, layout)
+        elif object_type == "TRACK_PIECE":
+            self.draw_piece_panel(context, context.object, layout)
 
     @staticmethod
     def wrong_render_mode(context, layout, mode):
@@ -55,13 +70,14 @@ class LocoObjectHelperPanel(bpy.types.Panel):
             return True
         return False
 
-    def draw_piece_panel(self, context, layout):
+    def draw_piece_panel(self, context, track_object, layout):
         row = layout.row()
 
         if self.wrong_render_mode(context, layout, "TRACK"):
             return
 
-        track_piece_properties = context.object.loco_graphics_helper_track_piece_properties
+        # track piece's properties
+        track_piece_properties = track_object.loco_graphics_helper_track_piece_properties
         if is_road():
             row = layout.row()
             row.prop(track_piece_properties,"road_piece")
@@ -77,21 +93,22 @@ class LocoObjectHelperPanel(bpy.types.Panel):
         if piece_type.value <= 0:
             return
         manifest = track_piece_manifest[piece_type.value]
-        track_piece = TrackPiece(manifest, context.object)
+        track_piece = TrackPiece(manifest, track_object)
         box = layout.box()
         box.label("Layers:")
         split = box.split(.50)
         columns = [split.column(), split.column()]
         for i in range(get_num_layers(manifest.sprite_type)):
             names = get_layer_names(i + manifest.base_layer_name)
-            columns[i % 2].row().prop(track_piece_properties, "layers",
+            # track layer's properties
+            columns[i % 2].row().prop(context.object.loco_graphics_helper_track_piece_properties, "layers",
                                       index=i, text=names[0])
         box = layout.box()
         col = box.column()
         for i in range(track_piece.num_layers):
             col.label("{} layer:".format(track_piece.layer_names[i]))
             if len(track_piece.layer_objects[i]) == 0:
-                col.label("  No model set. Sprites will be ignored.")
+                col.label("  No model set. Sprites will be blank.")
             else:
                 col.label("  "+", ".join([x.name for x in track_piece.layer_objects[i]]))
 
