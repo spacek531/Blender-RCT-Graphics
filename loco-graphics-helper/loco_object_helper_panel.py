@@ -8,6 +8,8 @@ Loco Graphics Helper is licensed under the GNU General Public License version 3.
 '''
 
 import bpy
+from .track import is_road, is_rail, TrackPiece, get_layer_names, get_num_layers
+from .angle_sections.track import TrackPieceType, RoadPieceType, track_piece_manifest, TrackType
 
 class LocoObjectHelperPanel(bpy.types.Panel):
     bl_label = "Loco Graphics"
@@ -25,23 +27,102 @@ class LocoObjectHelperPanel(bpy.types.Panel):
             row.label("Tool is not intialised.")
             return
         row.prop(object_properties, "object_type")
+        object_type = object_properties.object_type
 
-        if object_properties.object_type == "BODY":
+        if object_type == "BODY":
             self.draw_body_panel(context, layout)
         
-        if object_properties.object_type == "BOGIE":
+        if object_type == "BOGIE":
             self.draw_bogie_panel(context, layout)
 
-        if object_properties.object_type == "CAR":
+        if object_type == "CAR":
             self.draw_car_panel(context, layout)
+        
+        if object_properties.object_type == "TRACK_PIECE":
+            self.draw_piece_panel(context, layout)
+        
+        if object_type == "TRACK_LAYER":
+            self.draw_layer_panel(context, layout)
 
-    def draw_car_panel(self, context, layout):
+    @staticmethod
+    def wrong_render_mode(context, layout, mode):
         scene = context.scene
         general_properties = scene.loco_graphics_helper_general_properties
+        
+        if general_properties.render_mode != mode:
+            row = layout.row()
+            row.label("{} render mode required".format(mode))
+            return True
+        return False
+
+    def draw_piece_panel(self, context, layout):
         row = layout.row()
 
-        if not general_properties.render_mode == "VEHICLE":
-            row.label("Vehicle Render Mode Required")
+        if self.wrong_render_mode(context, layout, "TRACK"):
+            return
+
+        track_piece_properties = context.object.loco_graphics_helper_track_piece_properties
+        if is_road():
+            row = layout.row()
+            row.prop(track_piece_properties,"road_piece")
+            row = layout.row()
+            row.prop(track_piece_properties,"reversed")
+        else:
+            row = layout.row()
+            row.prop(track_piece_properties,"track_piece")
+        
+        piece_name = track_piece_properties.road_piece if is_road() else track_piece_properties.track_piece
+        piece_type = RoadPieceType[piece_name] if is_road() else TrackPieceType[piece_name]
+        
+        if piece_type.value <= 0:
+            return
+        manifest = track_piece_manifest[piece_type.value]
+        track_piece = TrackPiece(manifest, context.object)
+        box = layout.box()
+        box.label("Layers:")
+        split = box.split(.50)
+        columns = [split.column(), split.column()]
+        for i in range(get_num_layers(manifest.sprite_type)):
+            names = get_layer_names(i + manifest.base_layer_name)
+            columns[i % 2].row().prop(track_piece_properties, "layers",
+                                      index=i, text=names[0])
+        box = layout.box()
+        col = box.column()
+        for i in range(track_piece.num_layers):
+            col.label("{} layer:".format(track_piece.layer_names[i]))
+            if len(track_piece.layer_objects[i]) == 0:
+                col.label("  No model set. Sprites will be ignored.")
+            else:
+                col.label("  "+", ".join([x.name for x in track_piece.layer_objects[i]]))
+
+    def draw_layer_panel(self, context, layout):
+        row = layout.row()
+
+        if self.wrong_render_mode(context, layout, "TRACK"):
+            return
+
+        track_piece_properties = context.object.loco_graphics_helper_track_piece_properties
+
+        parent = context.object.parent
+        parent_properties = parent.loco_graphics_helper_track_piece_properties
+        piece_name = parent_properties.road_piece if is_road() else parent_properties.track_piece
+        piece_type = RoadPieceType[piece_name] if is_road() else TrackPieceType[piece_name]
+        if piece_type.value <= 0:
+            return
+        manifest = track_piece_manifest[piece_type.value]
+        box = layout.box()
+        box.label("Layers:")
+        split = box.split(.50)
+        columns = [split.column(), split.column()]
+        for i in range(get_num_layers(manifest.sprite_type)):
+            names = get_layer_names(i + manifest.base_layer_name)
+            columns[i % 2].row().prop(track_piece_properties, "layers",
+                                      index=i, text=names[0])
+
+    def draw_car_panel(self, context, layout):
+        row = layout.row()
+
+        if self.wrong_render_mode(context, layout, "VEHICLE"):
             return
 
         vehicle_properties = context.object.loco_graphics_helper_vehicle_properties
@@ -50,12 +131,8 @@ class LocoObjectHelperPanel(bpy.types.Panel):
         row = layout.row()
 
     def draw_bogie_panel(self, context, layout):
-        scene = context.scene
-        general_properties = scene.loco_graphics_helper_general_properties
-        row = layout.row()
 
-        if not general_properties.render_mode == "VEHICLE":
-            row.label("Vehicle Render Mode Required")
+        if self.wrong_render_mode(context, layout, "VEHICLE"):
             return
 
         vehicle_properties = context.object.loco_graphics_helper_vehicle_properties
@@ -111,12 +188,8 @@ class LocoObjectHelperPanel(bpy.types.Panel):
         row.prop(vehicle_properties, "bounding_box_override")
 
     def draw_body_panel(self, context, layout):
-        scene = context.scene
-        general_properties = scene.loco_graphics_helper_general_properties
-        row = layout.row()
 
-        if not general_properties.render_mode == "VEHICLE":
-            row.label("Vehicle Render Mode Required")
+        if self.wrong_render_mode(context, layout, "VEHICLE"):
             return
 
         vehicle_properties = context.object.loco_graphics_helper_vehicle_properties
@@ -144,8 +217,7 @@ class LocoObjectHelperPanel(bpy.types.Panel):
 
         box = layout.box()
 
-        row = box.row()
-        row.label("Sprites:")
+        box.label("Sprites:")
 
         split = box.split(.50)
         columns = [split.column(), split.column()]

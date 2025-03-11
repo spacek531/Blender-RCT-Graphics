@@ -45,6 +45,9 @@ class TaskBuilder:
         self.use_anti_aliasing = True
         self.anti_alias_with_background = False
         self.maintain_aliased_silhouette = True
+        self.mirror_x = False
+
+        self.target_object = None
 
         self.output_index = 0
 
@@ -58,7 +61,10 @@ class TaskBuilder:
 
         self.offset_x = 0
         self.offset_y = 0
+        self.output_flags = 0
+        self.output_zoomOffset = 0
 
+        self.output_prefix = "Sprite"
         self.occlusion_layers = 0
 
         self.task = RenderTask(None)
@@ -87,6 +93,11 @@ class TaskBuilder:
 
         frame.set_base_palette(self.palette)
 
+        frame.output_prefix = self.output_prefix
+        frame.set_output_flags(self.output_flags)
+        frame.set_output_zoomOffset(self.output_zoomOffset)
+        frame.set_mirror_x(self.mirror_x)
+
         frame.set_anti_aliasing_with_background(
             self.use_anti_aliasing, self.anti_alias_with_background, self.maintain_aliased_silhouette)
 
@@ -103,7 +114,7 @@ class TaskBuilder:
         self.output_index += number
 
     # Adds render angles for the given number of viewing angles relative to the currently configured rotation
-    def add_viewing_angles(self, number_of_viewing_angles, animation_frame_index=0, animation_frames=1, rotational_symmetry=False):
+    def add_viewing_angles(self, number_of_viewing_angles, animation_frame_index=0, animation_frames=1, rotational_symmetry=False, oversize_order = "SCENERY"):
 
         start_output_index = self.output_index
 
@@ -111,12 +122,13 @@ class TaskBuilder:
             number_of_viewing_angles = int(number_of_viewing_angles / 2)
 
         rotation_range = 180 if rotational_symmetry else 360
+        frames = 0
+        for viewing_angle_index in range(number_of_viewing_angles):
+            for animation_frame in range(animation_frames):
+                num_sprites = 1
+                angle = rotation_range / number_of_viewing_angles * viewing_angle_index
 
-        for i in range(number_of_viewing_angles):
-            for j in range(animation_frames):
-                angle = rotation_range / number_of_viewing_angles * i
-
-                frame_index = start_output_index + i * animation_frames + j
+                frame_index = start_output_index + viewing_angle_index * animation_frames + animation_frame
                 frame = Frame(frame_index, self.task, angle + self.view_angle,
                               self.bank_angle, self.vertical_angle, self.mid_angle)
                 frame.set_multi_tile_size(self.width, self.length, self.invert_tile_positions)
@@ -128,13 +140,20 @@ class TaskBuilder:
                 frame.set_cast_shadows(self.cast_shadows)
 
                 frame.set_layer(self.layer)
+                
+                frame.set_target_object(self.target_object)
 
                 frame.set_base_palette(self.palette)
+                
+                frame.output_prefix = self.output_prefix
+                frame.set_output_flags(self.output_flags)
+                frame.set_output_zoomOffset(self.output_zoomOffset)
+                frame.set_mirror_x(self.mirror_x)
 
                 frame.set_anti_aliasing_with_background(
                     self.use_anti_aliasing, self.anti_alias_with_background, self.maintain_aliased_silhouette)
 
-                frame.animation_frame_index = animation_frame_index + j
+                frame.animation_frame_index = animation_frame_index + animation_frame
 
                 frame.set_occlusion_layers(self.occlusion_layers)
 
@@ -144,27 +163,25 @@ class TaskBuilder:
                     output_indices = []
                     for k in range(self.occlusion_layers):
                         output_indices.append(
-                            start_output_index + k * animation_frames * number_of_viewing_angles + j * number_of_viewing_angles + i)
+                            start_output_index + k * animation_frames * number_of_viewing_angles + animation_frame * number_of_viewing_angles + viewing_angle_index)
                     frame.set_output_indices(output_indices)
+                    num_sprites = self.occlusion_layers
 
                 if frame.oversized:
-                    output_indices = []
-                    for k in range(frame.width * frame.length):
-                        tile_index = k
-                        if frame.invert_tile_positions:
-                            tile_index = (frame.width * frame.length - k - 1)
-                        output_indices.append(
-                            start_output_index + tile_index * animation_frames * number_of_viewing_angles + j * number_of_viewing_angles + i)
-                        
-                    frame.set_output_indices(output_indices)
-
+                    if oversize_order == "SCENERY":
+                        num_sprites = frame.oversize_order_scenery(start_output_index, number_of_viewing_angles, viewing_angle_index, animation_frames, animation_frame)
+                    elif oversize_order == "TRACK":
+                        num_sprites = frame.oversize_order_track(start_output_index, number_of_viewing_angles, viewing_angle_index, animation_frames, animation_frame)
+                    else:
+                        raise Exception("Invalid oversize order type")
+                frames += num_sprites
                 self.angles.append(frame)
-
+        """
         frames = number_of_viewing_angles * \
             animation_frames * self.width * self.length
         if self.occlusion_layers > 0:
             frames *= self.occlusion_layers
-            
+            """
         self.output_index += frames
 
     # Sets the number of recolorable materials
@@ -200,6 +217,9 @@ class TaskBuilder:
         self.length = length
         self.invert_tile_positions = invert_tile_positions
 
+    def set_mirror_scale(self, scale):
+        self.scale = scale
+
     # Sets the rotation applied to future render angles
     def set_rotation(self, view_angle, bank_angle=0, vertical_angle=0, mid_angle=0):
         self.view_angle = view_angle
@@ -213,6 +233,7 @@ class TaskBuilder:
         self.bank_angle = 0
         self.vertical_angle = 0
         self.mid_angle = 0
+        self.mirror_x = False
 
     # Sets the number of occlusion layers
     def set_occlusion_layers(self, layers):
@@ -231,9 +252,11 @@ class TaskBuilder:
 
         self.width = 1
         self.length = 1
+        self.output_flags = 0
+        self.output_zoomOffset = 0
 
         self.set_offset(0, 0)
-
+        self.target_object = None
         self.set_occlusion_layers(0)
 
         self.recolorables = 0
@@ -241,3 +264,5 @@ class TaskBuilder:
         self.task = RenderTask(None)
 
         self.reset_rotation()
+        self.output_prefix = "Sprite"
+        

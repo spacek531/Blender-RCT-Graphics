@@ -113,6 +113,8 @@ class PostProcessor(SubProcessor):
 
             output_info.offset_x += frame.offset_x
             output_info.offset_y += frame.offset_y
+            output_info.flags = frame.output_flags
+            output_info.zoomOffset = frame.output_zoomOffset
 
             frame.task.output_info.append(output_info)
 
@@ -131,6 +133,8 @@ class PostProcessor(SubProcessor):
             for j in range(frame.length):
                 tile_index = j * frame.width + i
                 final_output_index = frame.output_indices[tile_index]
+                if final_output_index < 0:
+                    continue
                 final_output_path = frame.get_final_output_paths()[tile_index]
                 tile_magic_command = MagickCommand(quantized_output_path)
 
@@ -154,7 +158,6 @@ class PostProcessor(SubProcessor):
                         2), (j - (frame.length - 1) / 2)
 
                 rot = round(frame.view_angle / 90) % 4
-
                 if rot == 1:
                     x, y = (-y,  x)
                 if rot == 2:
@@ -173,6 +176,8 @@ class PostProcessor(SubProcessor):
 
                 output_info.offset_x += frame.offset_x
                 output_info.offset_y += frame.offset_y
+                output_info.flags = frame.output_flags
+                output_info.zoomOffset = frame.output_zoomOffset
 
                 output_infos.append(output_info)
 

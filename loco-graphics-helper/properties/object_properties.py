@@ -45,6 +45,7 @@ class ObjectProperties(bpy.types.PropertyGroup):
             ("CAR", "Car", "", 4),
             ("ANIMATION", "Animation position", "", 5),
             ("TRACK_PIECE","Track piece","",6),
+            ("TRACK_LAYER","Track layer","",7),
         ),
         default="NONE",
         update=object_type_update_func

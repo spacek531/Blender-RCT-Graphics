@@ -28,6 +28,9 @@ from .models.palette import palette_colors, palette_colors_details
 
 from .vehicle import get_car_components, VehicleComponent, SubComponent, get_number_of_sprites, get_half_width
 
+from .track import is_rail, is_road, get_track_pieces, TrackPiece, get_valid_pieces
+from .angle_sections.track import track_piece_manifest
+
 class RepairConfirmOperator(bpy.types.Operator):
     """This action will clear out the default camera and light. Changes made to the rig object, compositor nodes and recolorable materials will be lost."""
     bl_idname = "loco_graphics_helper.repair_confirm"
@@ -217,25 +220,65 @@ class GraphicsHelperPanel(bpy.types.Panel):
             text = "Failed"
         row.operator("render.loco_walls", text=text)
 
+    @staticmethod
+    def create_track_box(track_piece, layout):
+        box = layout.box()
+        row = box.row()
+        manifest = track_piece_manifest[track_piece.track_piece]
+        row.label(manifest.name)
+        if track_piece.root_object is not None:
+            row.prop(track_piece.root_object.loco_graphics_helper_track_piece_properties, "render_sprite")
+            col = box.column()
+            for i in range(track_piece.num_layers):
+                col.label("{} layer:".format(track_piece.layer_names[i]))
+                if len(track_piece.layer_objects[i]) == 0:
+                    col.label("  No model set. Sprites will be blank.")
+                else:
+                    col.label("  "+", ".join([x.name for x in track_piece.layer_objects[i]]))
+
     def draw_track_panel(self, scene, layout):
         properties = scene.loco_graphics_helper_track_properties
         general_properties = scene.loco_graphics_helper_general_properties
-
-        row = layout.row()
-        row.label("Work in progress")
         
         #row = layout.row()
         #row.operator("render.loco_track", text="Generate Splines")
         
         row = layout.row()
         row.prop(properties, "track_type")
-#
-        if "Rig" in context.scene.objects:
+        
+        if is_road():
             row = layout.row()
-            text = "Render"
-            if general_properties.rendering:
-                text = "Failed"
-            row.operator("render.loco_track", text=text)
+            row.prop(properties,"one_way")
+
+        track_pieces = [x for x in scene.objects if x.loco_graphics_helper_object_properties.object_type == "TRACK_PIECE" and not x.loco_graphics_helper_track_piece_properties.reversed]
+        reverse_pieces = [x for x in scene.objects if x.loco_graphics_helper_object_properties.object_type == "TRACK_PIECE" and x.loco_graphics_helper_track_piece_properties.reversed]
+
+        col = layout.column()
+        valid_pieces = get_valid_pieces()
+        ndot_pieces = get_track_pieces(track_pieces)
+        if is_road():
+            col.label("Road pieces:")
+            box = col.box()
+            for piece_number in valid_pieces:
+                self.create_track_box(ndot_pieces[piece_number],box)
+            if properties.one_way:
+                col.label("Reverse road pieces:")
+                rdot_pieces = get_track_pieces(reverse_pieces)
+                box = col.box()
+                for piece_number in valid_pieces:
+                    self.create_track_box(rdot_pieces[piece_number],box)
+        else:
+            col.label("Track pieces:")
+            box = col.box()
+            for piece_number in valid_pieces:
+                self.create_track_box(ndot_pieces[piece_number],box)
+        
+
+        row = layout.row()
+        text = "Render"
+        if general_properties.rendering:
+            text = "Failed"
+        row.operator("render.loco_track", text=text)
 
     @staticmethod
     def blender_to_loco_dist(dist):

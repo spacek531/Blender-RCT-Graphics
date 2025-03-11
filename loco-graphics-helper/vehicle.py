@@ -113,7 +113,7 @@ class VehicleComponent:
         props = object.loco_graphics_helper_vehicle_properties
         if props.null_component:
             return 255
-        return props.index + 180 * props.is_inverted
+        return props.index + 128 * props.is_inverted
 
     def has_sprites(self, sub_component: SubComponent):
         object = self.get_object(sub_component)
