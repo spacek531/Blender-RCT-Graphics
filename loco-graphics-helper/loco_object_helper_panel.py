@@ -71,7 +71,6 @@ class LocoObjectHelperPanel(bpy.types.Panel):
         return False
 
     def draw_piece_panel(self, context, track_object, layout):
-        row = layout.row()
 
         if self.wrong_render_mode(context, layout, "TRACK"):
             return
@@ -154,6 +153,7 @@ class LocoObjectHelperPanel(bpy.types.Panel):
 
         vehicle_properties = context.object.loco_graphics_helper_vehicle_properties
 
+        row = layout.row()
         row.prop(vehicle_properties, "null_component")
         row = layout.row()
 
@@ -211,12 +211,13 @@ class LocoObjectHelperPanel(bpy.types.Panel):
 
         vehicle_properties = context.object.loco_graphics_helper_vehicle_properties
 
-        row.prop(vehicle_properties, "null_component")
         row = layout.row()
+        row.prop(vehicle_properties, "null_component")
 
         if vehicle_properties.null_component:
             return
 
+        row = layout.row()
         row.prop(vehicle_properties, "index")
         row = layout.row()
 
